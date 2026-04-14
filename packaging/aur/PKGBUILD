@@ -1,0 +1,30 @@
+pkgname=orbital-wifi
+pkgver=0.1.0
+pkgrel=1
+pkgdesc='NASA-themed WiFi terminal UI for NetworkManager'
+arch=('any')
+url='https://github.com/juswa005/orbital-wifi'
+license=('MIT')
+depends=('python' 'networkmanager')
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+checkdepends=('python')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
+sha256sums=('REPLACE_WITH_RELEASE_TARBALL_SHA256')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+check() {
+  cd "$srcdir/$pkgname-$pkgver"
+  PYTHONPATH=src python -m unittest discover -s tests
+}
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}
