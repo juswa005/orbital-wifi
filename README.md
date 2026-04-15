@@ -1,128 +1,108 @@
 # Orbital WiFi
 
-`orbital-wifi` is a NASA-themed terminal UI for WiFi management on Linux. It is built on top of NetworkManager and `nmcli`, with a focus on being fast, dependable, and practical enough to replace tools like `wifitui` for everyday use.
+`orbital-wifi` is a NASA-themed WiFi TUI for Linux. It uses NetworkManager through `nmcli` and is meant to be a practical daily-driver alternative to tools like `wifitui`.
 
 ## Features
 
-- Live WiFi scan view with signal strength, security, BSSID, and active network markers
-- Saved profile view for reconnecting or deleting remembered WiFi connections
-- Password prompt for secured networks
-- Hidden network support
-- WiFi radio toggle, disconnect action, interface cycling, and manual rescan
-- No runtime dependencies beyond Python and `nmcli`
-- Packaged with a console entry point and basic tests so it is ready to publish
+- Scan nearby WiFi networks
+- Connect to open, secured, or hidden networks
+- View and reuse saved WiFi profiles
+- Delete saved WiFi profiles
+- Toggle WiFi radio, disconnect, and switch interfaces
+- No runtime dependencies beyond Python and NetworkManager
 
 ## Requirements
 
 - Linux
 - Python 3.11+
-- NetworkManager with `nmcli` available on `PATH`
+- NetworkManager
+- `nmcli` available on `PATH`
 - A terminal with curses support
+
+Check that `nmcli` is available:
+
+```bash
+nmcli --version
+```
 
 ## Install
 
-### From source with `pipx`
+### Install with `pipx`
+
+From the project directory:
 
 ```bash
 pipx install .
 ```
 
-### Local development install
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
-```
-
-## Usage
+After that, run:
 
 ```bash
 orbital-wifi
 ```
 
-Select a specific wireless interface:
+### Install with `pip`
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install .
+```
+
+Then run:
+
+```bash
+orbital-wifi
+```
+
+### Run without installing
+
+From the project directory:
+
+```bash
+PYTHONPATH=src python3 -m orbital_wifi
+```
+
+## Usage
+
+Start the app:
+
+```bash
+orbital-wifi
+```
+
+Use a specific wireless interface:
 
 ```bash
 orbital-wifi --interface wlan0
 ```
 
-## Keybindings
+Inside the TUI:
 
-### Global
-
-- `q`: quit
-- `Tab`: switch between scanned networks and saved profiles
-- `r`: refresh data
+- `Up` / `Down`: move selection
+- `Enter`: connect to a network or activate a saved profile
+- `Tab`: switch between networks and saved profiles
+- `h`: connect to a hidden network
+- `d`: disconnect the current wireless interface
+- `x`: delete the selected saved profile
+- `r`: refresh scan results
 - `w`: toggle WiFi radio
 - `i`: cycle wireless interfaces
+- `q`: quit
 
-### Networks view
+## Build
 
-- `Up` / `Down`: move selection
-- `Enter`: connect to the selected network
-- `d`: disconnect the current wireless interface
-- `h`: connect to a hidden network
-
-### Profiles view
-
-- `Up` / `Down`: move selection
-- `Enter`: activate the selected saved profile
-- `x`: delete the selected saved profile
-
-## Release Notes
-
-This project is set up as a standard Python package:
-
-- `pyproject.toml` defines package metadata and the `orbital-wifi` console script
-- `src/orbital_wifi/` contains the application code
-- `tests/` contains parser and sorting tests that do not need live WiFi hardware
-
-Build a distributable package with:
+Build release artifacts locally with:
 
 ```bash
 python3 -m build
 ```
 
-Tagged releases are wired into GitHub Actions through `.github/workflows/release.yml`. Pushing a tag like `v0.1.0` runs the test suite, builds the source distribution and wheel, generates `SHA256SUMS.txt`, and attaches the artifacts to the GitHub release.
-
 ## Arch Linux / AUR
 
-Packaging files are included in `packaging/aur/`:
+AUR packaging files are included in `packaging/aur/`.
 
-- `packaging/aur/PKGBUILD`
-- `packaging/aur/.SRCINFO`
-
-Before submitting the stable package to the AUR:
-
-1. Push a matching Git tag such as `v0.1.0`.
-2. Wait for the GitHub release workflow to publish the source tarball.
-3. Replace `REPLACE_WITH_RELEASE_TARBALL_SHA256` in both packaging files with the real tarball checksum.
-4. Copy those files into your AUR package repository root.
-
-Example checksum command:
-
-```bash
-curl -L https://github.com/juswa005/orbital-wifi/archive/refs/tags/v0.1.0.tar.gz | sha256sum
-```
-
-Then regenerate `.SRCINFO` from the AUR repo with:
-
-```bash
-makepkg --printsrcinfo > .SRCINFO
-```
-
-## Design Notes
-
-Orbital WiFi intentionally leans on `nmcli` instead of talking to NetworkManager over DBus directly. That keeps the install path simple, makes debugging easier, and matches the behavior users expect from existing terminal-first WiFi tools.
-
-The visual language borrows from mission-control dashboards: status banners, telemetry-style panels, and compact operator-focused shortcuts instead of decorative chrome.
-
-## Limitations
-
-- This currently targets NetworkManager-managed Linux systems.
-- Permission prompts are delegated to your local NetworkManager and polkit setup.
-- Hidden networks can be connected manually, but they will only be listed automatically if NetworkManager reports them.
+They still need the final release tarball checksum before submission.
 
 ## License
 
