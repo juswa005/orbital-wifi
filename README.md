@@ -63,6 +63,24 @@ From the project directory:
 PYTHONPATH=src python3 -m orbital_wifi
 ```
 
+## Uninstall
+
+If you installed with `pipx`:
+
+```bash
+pipx uninstall orbital-wifi
+```
+
+If you installed with `pip` in a virtual environment:
+
+```bash
+source .venv/bin/activate
+pip uninstall orbital-wifi
+deactivate
+```
+
+If you only ran it from source without installing, there is nothing to uninstall.
+
 ## Usage
 
 Start the app:
