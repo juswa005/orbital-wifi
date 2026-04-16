@@ -4,9 +4,7 @@
 
 ## Screenshot
 
-Add your screenshot to `assets/screenshot-main.png`, then uncomment the line below.
-
-<!-- ![Orbital WiFi screenshot](assets/screenshot-main.png) -->
+ ![Orbital WiFi screenshot](assets/screenshot-main.png) 
 
 ## Features
 
