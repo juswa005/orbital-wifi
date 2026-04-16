@@ -2,6 +2,12 @@
 
 `orbital-wifi` is a NASA-themed WiFi TUI for Linux. It uses NetworkManager through `nmcli` and is meant to be a practical daily-driver alternative to tools like `wifitui`.
 
+## Screenshot
+
+Add your screenshot to `assets/screenshot-main.png`, then uncomment the line below.
+
+<!-- ![Orbital WiFi screenshot](assets/screenshot-main.png) -->
+
 ## Features
 
 - Scan nearby WiFi networks
